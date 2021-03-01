@@ -1,0 +1,280 @@
+{
+    "features": [
+        {
+            "label": "ACS",
+            "name": "Auxiliary Cooling System",
+            "thresholds": [
+                {
+                    "label": "EQ",
+                    "metric": "PGA",
+                    "unit": "g",
+                    "value": 0.2
+                },
+                {
+                    "label": "FL",
+                    "metric": "Inundation",
+                    "unit": "m",
+                    "value": 1.7
+                },
+                {
+                    "label": "TO",
+                    "metric": "Windspeed",
+                    "unit": "km/h",
+                    "value": 180
+                },
+                {
+                    "label": "LI",
+                    "metric": "Electric Current",
+                    "unit": "kA",
+                    "value": 1400
+                },
+                {
+                    "label": "TM",
+                    "unit": "",
+                    "value": 40
+                }
+            ]
+        },
+        {
+            "label": "BATT",
+            "name": "Battery",
+            "thresholds": [
+                {
+                    "label": "EQ",
+                    "metric": "PGA",
+                    "unit": "g",
+                    "value": 0.23
+                },
+                {
+                    "label": "FL",
+                    "metric": "Inundation",
+                    "unit": "m",
+                    "value": 2
+                },
+                {
+                    "label": "TO",
+                    "metric": "Windspeed",
+                    "unit": "km/h",
+                    "value": 160
+                },
+                {
+                    "label": "LI",
+                    "metric": "Electric Current",
+                    "unit": "kA",
+                    "value": 800
+                },
+                {
+                    "label": "TM",
+                    "unit": "",
+                    "value": 40
+                }
+            ]
+        },
+        {
+            "label": "LOOP",
+            "name": "Loss of offsite Power",
+            "thresholds": [
+                {
+                    "label": "EQ",
+                    "metric": "PGA",
+                    "unit": "g",
+                    "value": 0.27
+                },
+                {
+                    "label": "FL",
+                    "metric": "Inundation",
+                    "unit": "m",
+                    "value": 1
+                },
+                {
+                    "label": "TO",
+                    "metric": "Windspeed",
+                    "unit": "km/h",
+                    "value": 190
+                },
+                {
+                    "label": "LI",
+                    "metric": "Electric Current",
+                    "unit": "kA",
+                    "value": 1200
+                },
+                {
+                    "label": "TM",
+                    "unit": "",
+                    "value": 40
+                },
+                {
+                    "label": "EQ",
+                    "metric": "PGA",
+                    "unit": "g",
+                    "value": 0.27
+                },
+                {
+                    "label": "FL",
+                    "metric": "Inundation",
+                    "unit": "m",
+                    "value": 1
+                },
+                {
+                    "label": "FL",
+                    "metric": "Flow",
+                    "unit": "m^3/s",
+                    "value": 0
+                },
+                {
+                    "label": "TO",
+                    "metric": "Windspeed",
+                    "unit": "km/h",
+                    "value": 190
+                },
+                {
+                    "label": "LI",
+                    "metric": "Electric Current",
+                    "unit": "kA",
+                    "value": 1200
+                }
+            ]
+        },
+        {
+            "label": "EDG",
+            "name": "Emergency Diesel Generator",
+            "thresholds": [
+                {
+                    "label": "EQ",
+                    "metric": "PGA",
+                    "unit": "g",
+                    "value": 0.21
+                },
+                {
+                    "label": "FL",
+                    "metric": "Inundation",
+                    "unit": "m",
+                    "value": 2.5
+                },
+                {
+                    "label": "TO",
+                    "metric": "Windspeed",
+                    "unit": "km/h",
+                    "value": 100
+                },
+                {
+                    "label": "LI",
+                    "metric": "Electric Current",
+                    "unit": "kA",
+                    "value": 950
+                },
+                {
+                    "label": "TM",
+                    "unit": "",
+                    "value": 40
+                }
+            ]
+        },
+        {
+            "label": "RDN",
+            "name": "Road Network",
+            "thresholds": [
+                {
+                    "label": "EQ",
+                    "metric": "PGA",
+                    "unit": "g",
+                    "value": 0.23
+                },
+                {
+                    "label": "FL",
+                    "metric": "Inundation",
+                    "unit": "m",
+                    "value": 0.5
+                },
+                {
+                    "label": "TO",
+                    "metric": "Windspeed",
+                    "unit": "km/h",
+                    "value": 220
+                },
+                {
+                    "label": "LI",
+                    "metric": "Electric Current",
+                    "unit": "kA",
+                    "value": 1200
+                },
+                {
+                    "label": "TM",
+                    "unit": "",
+                    "value": 40
+                }
+            ]
+        },
+        {
+            "label": "TD/AFW",
+            "name": "Turbine Driven Auxiliary Feed Water",
+            "thresholds": [
+                {
+                    "label": "EQ",
+                    "metric": "PGA",
+                    "unit": "g",
+                    "value": 0.26
+                },
+                {
+                    "label": "FL",
+                    "metric": "Inundation",
+                    "unit": "m",
+                    "value": 1.25
+                },
+                {
+                    "label": "TO",
+                    "metric": "Windspeed",
+                    "unit": "km/h",
+                    "value": 170
+                },
+                {
+                    "label": "LI",
+                    "metric": "Electric Current",
+                    "unit": "kA",
+                    "value": 500
+                },
+                {
+                    "label": "TM",
+                    "unit": "",
+                    "value": 40
+                }
+            ]
+        },
+        {
+            "label": "LIS",
+            "name": "Letdown Isolation System",
+            "thresholds": [
+                {
+                    "label": "EQ",
+                    "metric": "PGA",
+                    "unit": "g",
+                    "value": 0.15
+                },
+                {
+                    "label": "FL",
+                    "metric": "Inundation",
+                    "unit": "m",
+                    "value": 1.5
+                },
+                {
+                    "label": "TO",
+                    "metric": "Windspeed",
+                    "unit": "km/h",
+                    "value": 160
+                },
+                {
+                    "label": "LI",
+                    "metric": "Electric Current",
+                    "unit": "kA",
+                    "value": 700
+                },
+                {
+                    "label": "TM",
+                    "unit": "",
+                    "value": 40
+                }
+            ]
+        }
+    ],
+    "type": "FeatureCollection"
+}

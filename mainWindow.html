@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" type="text/css" href="assets/css/mainWindow.css">
+    <link rel="stylesheet" type="text/css" href="src/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.4.0/dist/leaflet.css" integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA==" crossorigin=""/>   
+    <script>let $ = require('jquery');</script>
+    <script>require('popper.js');</script>
+    <script>require('bootstrap');</script>
+
+    <title>Explorer</title>
+  </head>
+  <body>
+    <div class="header">
+      <a class="logo"><img src="assets/img/logo.png" style="height:70px"></a>
+      <div class="header-right">
+          <h1> NARSIS Multi Hazard Explorer</h1>
+      </div>
+  </div>
+
+
+  <div class="tab">
+      <button class="tablinks" onclick="openTab(event, 'Site')" id="defaultOpen" >Site</button>
+      <button class="tablinks" onclick="openTab(event, 'Hazard')">Hazard</button>
+      <button class="tablinks" onclick="openTab(event, 'Components')">Components</button>
+      <button class="tablinks" onclick="openTab(event, 'Logic')">Logic</button>
+      <button class="tablinks" onclick="openTab(event, 'Results')">Results</button>
+  </div>
+  <section>
+    <div id="Site" class="tabcontent content-block">
+      <div class="row">
+        <div class="col-12">
+          <h3>Select Site</h3>
+        </div>
+        <div class="col-12">
+          <div class="row">
+            <div class="col-4">
+              <div id="map" style="height:70vh"></div>
+            </div>
+            <div class="container col-8">
+              <div class="row " >
+                <div class="col-12 ">
+                  <p>Select a site to start multi-hazard combination. You can also add new sites to the database or remove existing ones. Afterwards, you can assess the individual hazards.</p>
+                </div>
+                <div class="col-12 mt-3">
+                  <button class="btn btn-info" class="button" onclick="addSite(this)">New Site</button>
+                  <button class="btn btn-info" onclick="removeSite(this)">Remove Site</button>
+                </div>
+                <div class="col-12 mt-3">
+                  <div class="row">
+                      <div  class="col-md-6 col-sm-12 align-top" style="overflow-y:scroll;">
+                        <table id='siteTable'></table>
+                      </div>
+                      <hr>
+                      <div class="col-md-6 col-sm-12"  id='siteDetail' >
+
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+            
+              </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div id="Hazard" class="tabcontent content-block">
+      <div class="row">
+        <div class="col-12">
+          <h3>Hazards</h3>
+        </div>
+        <div class="col-12">
+          <div class="row">
+          <div class="col-3">
+            <!--<button class="button" onclick="loadHazard()">Load Site Hazard</button>-->
+
+              <!--<button class="button" onclick="">Get Event List</button>-->
+              <p>Review the individual hazards for you site. You can add new hazard curves, delete existing ones or proceed to the next step.</p>
+              <button class="btn btn-info" onclick="addHazard(this)">Add Hazard</button>
+              <button class="btn btn-info" onclick="openTab(event, 'Logic')">Next Step</button>
+            <div id='hazardList'>
+              
+            </div>
+          </div>
+            <!--<div class="buttonBox">
+              <button class="button" onclick="">Add Hazard</button>
+              <button class="button" onclick="">Edit Hazard</button>
+              <button class="button" onclick="">Dublicate Hazard</button>
+            </div>-->
+          
+          <div class="col-9">
+            <div id='canvas'>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div id="Components" class="tabcontent content-block">
+      <div class="row">
+        <div class="col-6">
+          <h3>Site Components</h3>
+          <p>Review your site components</p>
+        </div>
+        <div class="col-6" >
+          <button class="btn btn-info ml-3 mt-1 mb-1" onclick="addComponent()" style="float: right;">Add</button>
+          <button class="btn btn-info ml-3 mt-1 mb-1" onclick="saveComponents()" style="float: right;">Save</button>
+          <button class="btn btn-info ml-3 mt-1 mb-1" onclick="loadComponents()" style="float: right;">Load</button>
+        </div>
+        <div class="col-12">
+          
+          <div class="row mb-3">
+            <div class="col-12">
+              <table class="table table-sm" id='componentList_1'>
+            
+              </table>
+            </div>
+            
+            
+          </div>
+          
+        </div>
+        <div class="col-12">
+          <p id="th_header">Risk Thresholds</p>
+          <p>To ignore a hazard, use "0" as threshold. Labels are recommended to correspond to the given hazard labels.</p>
+          <table class="table table-sm" id="thc_list">
+          </table>
+          <button class="btn btn-info" onclick="applyComponentThresholds()" id="comp_change" disabled>Save Changes</button>
+        </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section>
+    <div id="Logic" class="tabcontent content-block">
+      <div class="row">
+        <div class="col-12">
+          <h3>Multi-Hazard Logic</h3>
+          <p>Select your relevant system component and adjust its thresholds, if necessary. Afterwards, select your primary hazard (we recommend the one with shortest return period), adjust look-ahead time and start multi-hazard computation.</p>
+        </div>
+        <div class="col-12">
+          <h4>Select Component</h4>
+          <div class="row mb-3">
+            <div class="col-lg-8 col-md-7 col-sm-12">
+              <table class="table table-sm" id='componentList'>
+            
+              </table>
+            </div>
+            <div class="col-lg-4 col-md-5 col-sm-12">
+              <p id="th_header">Risk Thresholds</p>
+              <p>To ignore a hazard, use "0" as threshold</p>
+              <table class="table table-sm" id="th_list">
+
+              </table>
+              <button class="btn btn-info" onclick="updateThreshold()" id="th_update" disabled>Update</button>
+            </div>
+            
+          </div>
+          
+        </div>
+        <div class="col-12">
+        <h4>Select Hazards</h4>
+          <table class="table table-sm" id="logiccards">
+
+          </table>
+        </div>
+        <div class="col-12 ">
+          <label class="mr-3 align-middle">Time Window [days]:  </label><input class="mr-3" id="timeWindow_value" type="number" min="1" Max="3650" step="1" value="365">
+          <button class="btn btn-info float-right " onclick="onSimulate(this)" id="sim_button" disabled>Compute</button>
+          
+         
+          
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <div id="Results" class="tabcontent">
+      <h3>Multi-Hazard Results</h3>
+      <div class="row">
+        <div class="top">
+          <!--<button class="button" onclick="loadHazard()">Load Site Hazard</button>-->
+          
+          <div class="align-middle ml-3" id='resultsList'>
+
+          </div>
+          <div class="buttonBox">
+           <!--<button class="button" onclick="">Get Event List</button>-->
+            <button class="btn btn-info ml-3" onclick="saveResults(this)">Export Results</button>
+          </div>
+        </div>
+        <div class="bottom">
+          <div id='canvas_results'>
+
+          </div>
+        </div>
+    </div>
+  </div>
+  </body>
+
+  <script src='src/js/tab.js'></script>
+  <script>
+
+    const electron = require('electron');
+    const {ipcRenderer} = electron;
+    //plotly
+    var Plotly = require('plotly.js-dist');
+
+    //mapping
+    let map;
+    
+    var L = require('leaflet');
+    map = L.map('map').setView([48, 9], 3);
+
+    function plotBasemap() {
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    }
+
+    function clearMap() {
+      map.eachLayer(function (layer) {
+        map.removeLayer(layer);
+      });
+      plotBasemap();
+    }
+
+    plotBasemap();
+    
+    //Location Sites
+    ipcRenderer.on('sites:load',function(e,item1,item2){
+      sites=item1;
+      components=item2;
+      buildSiteTable();
+      buildCompList();
+      
+    });
+
+    //Location Sites
+    ipcRenderer.on('sites:update',function(e,item1){
+      sites=item1;
+
+      buildSiteTable();
+      buildCompList();
+      openTab(event, 'Site')
+    });
+
+    function loadComponents() {
+      ipcRenderer.send('components:load') 
+    }
+    ipcRenderer.on('components:update', function(e,item2) {
+      components=item2;
+      buildCompList();
+    })
+
+    function saveComponents() {
+      ipcRenderer.send('components:save',components) 
+    }
+
+    function editComponent(e) {
+      ipcRenderer.send('component:edit:open',components,e.name) 
+    }
+
+   
+
+    let hazards;
+    let results;
+    let siteIndex;
+    let selected_component;
+    ipcRenderer.send('sites:load')
+
+    function buildSiteTable() {
+      //create header
+      var txt="";
+      //create header
+      txt+="<tr><th>Name</th><th>Latitude</th><th>Longitude</th><th>Country</th></tr>"
+      for (i = 0; i < sites.features.length; i++) { 
+        txt+="<tr onclick='highlightSite(this);'>";
+        txt+="<td>"+sites.features[i].name+"</td>"; //name
+          txt+="<td>"+sites.features[i].latitude+"</td>"; //place
+          txt+="<td>"+sites.features[i].longitude+"</td>"; //Latitude
+          txt+="<td>"+sites.features[i].country+"</td>"; //Longitude
+          txt+="</tr>";
+      }
+      document.getElementById("siteTable").innerHTML =txt;
+      plotSites(sites)
+    };
+    function plotSites(sites) {
+      clearMap()
+
+      for (i = 0; i < sites.features.length; i++) { 
+
+        var y=parseFloat(sites.features[i].latitude); //Latitude
+        var x=parseFloat(sites.features[i].longitude); //Longitude
+        var name=sites.features[i].name; //name
+        
+        var marker = L.marker([y, x]).addTo(map);
+        marker.bindPopup("<h3>"+name+"</h3>");
+
+      }
+    }
+    
+    function highlightSite(e) {
+      target=document.getElementById('siteDetail')
+      siteIndex=e.rowIndex-1
+      var txt="<h2>"+sites.features[siteIndex].name+"</h2>";
+      var numHaz=sites.features[siteIndex].hazards.length;
+
+      txt+="<p>Available Hazards:</p><ul>"
+      for (i=0; i<numHaz;i++) {
+        txt+="<li><p>"+sites.features[siteIndex].hazards[i].name+"</p></li>"
+      }
+      txt+="</ul>"
+      
+      txt+='<button class="btn btn-info float-right" onclick="'+"openTab(event, 'Hazard')"+'">Next Step</button>'
+      txt+='<button class="btn btn-info float-right mr-3" onclick="'+'editSite(event,'+"'"+siteIndex+"'"+')"'+'">Edit Site</button>'
+      target.innerHTML=txt
+      ipcRenderer.send('sites:selected',siteIndex)
+
+      document.getElementById('hazardList').innerHTML='';
+      document.getElementById('canvas').innerHTML='';
+      document.getElementById("sim_button").disabled=true;
+      document.getElementById("th_update").disabled=true;
+      loadHazard();
+    }
+
+    //Hazard Editor
+    function loadHazard() {
+      ipcRenderer.send('hazard:load')
+    }
+
+    function editSite(e,siteIndex) {
+      ipcRenderer.send('site:edit:open',siteIndex)
+    }
+
+    ipcRenderer.on('hazard:retrieve', function(e,item) {
+      hazards = item;
+      //show hazards in hazard tab
+      target=document.getElementById('hazardList')
+      txt="<p>Hazards:</p>"
+      for (i=0; i<hazards.length;i++) {
+        txt+='<div class="col-12 p-2"><div class="card"> <div class="card-header p-2"><h5>'+hazards[i].name+'</h5></div>'
+        txt+='<div class="card-body p-2">'
+        txt+='<div class="btn btn-info mr-1 mt-1" onclick="deleteHazard('+"'" +hazards[i].label+"'"+');">Delete</div>'
+        txt+='<div class="btn btn-info mt-1" onclick="editHazard('+"'" +hazards[i].label+"'"+');">Edit</div>'
+        txt+='</div>'
+        txt+='<div class="btn-footer">Metrics: '
+        txt+='<ul>'
+        for (j=0; j<hazards[i].metrics.length;j++) {
+          txt+='<li>' + hazards[i].metrics[j] + ' [' + hazards[i].units[j]+'] <div class="btn btn-info mr-1 mt-1" onclick="showHazard('+"'" +hazards[i].label+"','" +j+"'"+');">Show</div></li>'
+        }
+        txt+='</ul></div></div></div>'
+       }
+      
+      target.innerHTML=txt
+      //show hazards in logic tab
+      target=document.getElementById('logiccards')
+      txt=""
+      k=0
+      txt+='<td>Primary</td><td>Name</td><td>Threshold Period</td>'
+      for (i=0; i<hazards.length;i++) {
+        for (j=0; j<hazards[i].metrics.length;j++) {
+        
+        txt+='<tr>'
+        if (i==0) {
+          txt+="<td><input  type='radio' id='rb_haz_independent_"+ String(k)+"' name='hazardType' checked='checked'><br></td>"
+        } else {
+          txt+="<td><input  type='radio' id='rb_haz_independent_"+ String(k)+"' name='hazardType'><br></td>"
+        }
+        txt+='<td id="haz_' +hazards[i].label+' - '+ hazards[i].metrics[j] +'" >'+hazards[i].name+' - '+ hazards[i].metrics[j]+"</td>"
+        txt+='<td id="hazth_' +hazards[i].label+' - '+ hazards[i].metrics[j] +'"></td></tr>'
+        k+=1;
+        }
+      }
+      target.innerHTML=txt
+
+
+      target=document.getElementById('th_list')
+      txt=""
+      for (i=0; i<hazards.length;i++) {
+        if (hazards[i].metrics.length == 1) {
+          txt+='<tr><td>'+hazards[i].name+' - '+ hazards[i].metrics+'</td><td><input class="mr-2" id="th_' + hazards[i].label+'_' + hazards[i].metrics+'" type="number" min="0" step="0.01" value="0" style="width: 5rem">' + hazards[i].units +'</td></tr>'
+        } else {
+          for (j=0; j<hazards[i].metrics.length;j++) {
+            txt+='<tr><td>'+hazards[i].name+' - '+ hazards[i].metrics[j]+'</td><td><input class="mr-2" id="th_' + hazards[i].label+'_' + hazards[i].metrics[j]+'" type="number" min="0" step="0.01" value="0" style="width: 5rem">' + hazards[i].units[j] +'</td></tr>'
+        
+          }
+        }
+      }
+      target.innerHTML=txt
+      document.getElementById('canvas').innerHTML='';
+    });
+    
+    //delete hazard element from site
+    function deleteHazard(hazLabel) {
+
+      for (i=0; i<hazards.length;i++) {
+        if (hazLabel==hazards[i].label) {
+
+          ipcRenderer.send('hazard:delete',i)
+          console.log('sent')
+        }
+      }
+     
+    }
+    //edit hazard element meta data (open new window)
+    function editHazard(hazLabel) {
+      for (i=0; i<hazards.length;i++) {
+        if (hazLabel==hazards[i].label) {
+          ipcRenderer.send('hazard:edit:open',hazards[i],siteIndex,i)
+        }
+      }
+    }
+    //apply changes of hazard meta data
+    ipcRenderer.on('hazard:edit:apply',function(e){
+      loadHazard();
+    });
+    
+
+    
+    //open NewSite window
+    function addSite(e) {
+      
+      ipcRenderer.send('sites:newWindow')
+    }
+
+    function removeSite(e) {
+      ipcRenderer.send('sites:remove',siteIndex)
+      document.getElementById('siteDetail').innerHTML=''
+    }
+
+    function showHazard(hazLabel,metricIndex) {
+      var data = [];
+      for (i=0; i<hazards.length;i++) {
+        if (hazLabel==hazards[i].label) {
+          j=parseInt(metricIndex)
+          
+              console.log("found")
+              var trace = {
+                
+                x: hazards[i].rate,
+                y: hazards[i].values[j],
+                type: 'scatter',
+                name: hazards[i].metrics[j],
+
+              };
+              data.push(trace)
+
+              var layout = {
+              title: hazards[i].name,
+              yaxis: {title: hazards[i].metrics[j] + ' [' + hazards[i].units[j]+']'},
+              xaxis: {
+                title: 'Return Period',
+                type: 'log',
+                autorange: true
+                }
+              };
+              if (selected_component) {
+                //get threshold
+
+                var thx=parseFloat(document.getElementById("th_"+hazards[i].label+"_"+hazards[i].metrics[j]).value)
+  
+                th_x = {
+                  name: 'Risk Threshold - ' + hazards[i].label+"_"+hazards[i].metrics[j],
+                  type: 'line',
+                  yref: 'y',
+                  
+                  x: [Math.min.apply(null,hazards[i].rate),Math.max.apply(null,hazards[i].rate)],
+                  y: [thx,thx],
+                  
+                  line: {
+                    color: 'rgb(255, 0, 0)',
+                    width: 4,
+                    dash:'dot'
+                        }
+                };
+                data.push(th_x)
+              }
+              Plotly.newPlot('canvas', data, layout);
+            } 
+            
+           
+          }
+    }
+
+
+    //Create component Buttons
+    function buildCompList() {
+      console.log('build comp list')
+      document.getElementById('comp_change').disabled=true;
+      document.getElementById("thc_list").innerHTML='';
+      var txt="";
+      //create header
+      txt=""
+      for (i=0; i<components.features.length;i++) {
+        txt+='<tr><td>'
+        txt+='<h5 class="align-middle mt-auto mb-auto text-center">'+components.features[i].name+"</h5></td>"
+        txt+='<td><button class="btn btn-info" onclick="computeThreshold(this);" id="' +components.features[i].label+ '" name="componentcard">Select</button>'
+        txt+="</td></tr>"
+      }
+      document.getElementById("componentList").innerHTML =txt;
+      var txt="";
+      //create header
+      txt=""
+      for (i=0; i<components.features.length;i++) {
+        txt+='<tr><td>'
+        txt+='<h5 class="align-middle mt-auto mb-auto text-center">'+components.features[i].name+"</h5></td>"
+        txt+='<td><button class="btn btn-info" onclick="showComponent(this);" id="' +components.features[i].label+ '" name="componentcard">Select</button>'
+        txt+='<button class="btn btn-info ml-3" onclick="editComponent(this);" name="' +components.features[i].label+ '">Edit</button>'
+        txt+='<button class="btn btn-info ml-3" onclick="deleteComponent(this);" name="' +components.features[i].label+ '">Delete</button>'
+        txt+="</td></tr>"
+      }
+      document.getElementById("componentList_1").innerHTML =txt;
+      
+    }
+
+
+    function showComponent(e) {
+      //send component ID to backend
+      cards=document.getElementsByName('componentcard')
+      //for (i=0; i<cards.length;i++) {
+      //  cards[i].style.backgroundColor="#fff"
+      //}
+      selected_component = e.id;
+      //e.style.backgroundColor="#c1c1c1"
+      document.getElementById('comp_change').disabled=false;
+      txt="<tr><th>Name</th><th>Label</th><th>Value</th><th>Unit</th></tr>"
+      for (i=0; i<components.features.length;i++) {
+        if (components.features[i].label == e.id) {
+          for (j=0; j<components.features[i].thresholds.length;j++) {
+            
+            txt+="<tr>"
+            txt+="<td><input class='mr-2' id='thc_metric_" + j+"' type='text' value='" + components.features[i].thresholds[j].metric+ "' style='width: 10rem'></td>"
+            txt+="<td><input class='mr-2' id='thc_label_" + j+"' type='text' value='" + components.features[i].thresholds[j].label+ "' style='width: 5rem'></td>"
+            txt+="<td><input class='mr-2' id='thc_value_" + j+"' type='number' min='0' step='0.01' value=" + components.features[i].thresholds[j].value + " style='width: 5rem'> </td>"
+            txt+="<td><input class='mr-2' id='thc_unit_" + j+"' type='text' value='" + components.features[i].thresholds[j].unit+ "' style='width: 5rem'></td>"
+            txt+="</tr>"
+          }
+        }
+      }
+      
+      document.getElementById("thc_list").innerHTML=txt
+    }
+
+    function applyComponentThresholds() {
+      for (i=0; i<components.features.length;i++) {
+        if (components.features[i].label == selected_component) {
+          for (j=0; j<components.features[i].thresholds.length;j++) {
+            components.features[i].thresholds[j].metric=document.getElementById('thc_metric_' + j).value
+            components.features[i].thresholds[j].label=document.getElementById('thc_label_' + j).value
+            components.features[i].thresholds[j].value=document.getElementById('thc_value_' + j).value
+            components.features[i].thresholds[j].unit=document.getElementById('thc_unit_' + j).value
+            console.log(components.features[i].thresholds[j].value)
+          }
+        }
+      }
+
+      buildCompList();
+    }
+
+
+    function computeThreshold(e) {
+      //send component ID to backend
+      cards=document.getElementsByName('componentcard')
+      //for (i=0; i<cards.length;i++) {
+      //  cards[i].style.backgroundColor="#fff"
+      //}
+      selected_component = e.id;
+      //e.style.backgroundColor="#c1c1c1"
+      
+      for (i=0; i<components.features.length;i++) {
+        if (components.features[i].label == e.id) {
+          document.getElementById("th_header").innerHTML="Risk Thresholds - <b>" + components.features[i].name+"</b>"
+          document.getElementById("comp_delete").name=components.features[i].label
+          document.getElementById("comp_delete").disabled=false
+          for (j=0; j<components.features[i].thresholds.length;j++) {
+            voc=document.getElementById('th_'+components.features[i].thresholds[j].label+'_' + components.features[i].thresholds[j].metric)
+            
+            if (voc) {
+              voc.value=components.features[i].thresholds[j].value;
+            }
+          }
+        }
+      }
+      updateThreshold();
+    }
+
+
+    
+
+    function updateThreshold() {
+      thSetup=[];
+      for (i=0; i<hazards.length;i++) {
+        for (j=0; j<hazards[i].values.length;j++) {
+          thi={}
+          thi.value=parseFloat(document.getElementById('th_'+hazards[i].label+'_' + hazards[i].metrics[j]).value)
+          thi.label=hazards[i].label
+          thi.metric=hazards[i].metrics[j]
+          thSetup.push(thi)
+          
+          //search component threshold and update value
+          for (c=0; c<components.features.length;c++) {
+            if (components.features[c].label==selected_component) {
+              found=false
+              for (k=0; k<components.features[c].thresholds.length;k++) {
+                if ((components.features[c].thresholds[k].metric == hazards[i].metrics[j]) & (components.features[c].thresholds[k].label == hazards[i].label[j])) {
+                  components.features[c].thresholds[k].value=parseFloat(document.getElementById('th_'+hazards[i].label+'_' + hazards[i].metrics[j]).value);
+                  found=true;
+                }
+              }
+              //hazard was not found among thresholds - adding it
+              if (found==false) {
+                thc={}
+                thc.label=hazards[i].label
+                thc.metric=hazards[i].metrics[j]
+                thc.unit=hazards[i].units[j]
+                thc.value=parseFloat(document.getElementById('th_'+hazards[i].label+'_' + hazards[i].metrics[j]).value);
+                components.features[c].thresholds.push(thc)
+              }
+            }
+          }
+        }
+      }
+      ipcRenderer.send('component:selected',thSetup)
+    }
+
+
+
+
+    ipcRenderer.on('components:threshold',function(e,res){
+      item=res.th;
+      for (i=0;i<item.length;i++) {
+        const label=item[i][0]
+        const metric=item[i][1]
+        const value=item[i][2]
+        
+        //get card
+        target=document.getElementById("hazth_"+label+" - " + metric)
+        
+        target.innerHTML="" + parseInt(value) + " Years"
+        
+
+
+      }
+
+      
+      document.getElementById("sim_button").disabled=false;
+      document.getElementById("th_update").disabled=false;
+      radios=document.getElementsByName('hazardType')
+      for (i=0; i< radios.length; i++) {
+        if (i==res.hi) {
+          radios[i].checked=true;
+        } else {
+          radios[i].checked=false;
+        }
+      }
+    });
+
+
+
+
+
+
+
+
+
+    function onSimulate() {
+      //get status of independent hazards
+      var setup=[]
+      var timeInput=document.getElementById('timeWindow_value').value
+      k=0
+      for (i=0; i<hazards.length;i++) {
+        for (j=0; j<hazards[i].values.length;j++) {
+        var hazSetup={}
+        hazSetup.label=hazards[i].label
+        hazSetup.metric=hazards[i].metrics[j]
+        hazSetup.value=parseFloat(document.getElementById('th_'+hazards[i].label+'_' + hazards[i].metrics[j]).value)
+        var radio=document.getElementById('rb_haz_independent_'+String(k))
+        hazSetup.independent=true;
+        if (radio.checked) {
+          hazSetup.primary=true;
+          //hazSetup.dependent=false;
+        } else {
+          hazSetup.primary=false;
+          //hazSetup.independent=true;
+         // hazSetup.dependent=true;
+        }
+        hazSetup.threshold = document.getElementById('th_'+hazards[i].label+'_' + hazards[i].metrics[j]).value
+        setup.push(hazSetup)
+        k+=1;
+        }
+      }      
+      var comp_i = selected_component;
+      //change tab to results
+
+      openTab('', 'Results');
+      ipcRenderer.send('simulate',setup,comp_i,timeInput)
+    }
+    
+    
+    ipcRenderer.on('getSimulationResults', function(e,item){
+      results=item;
+      txt='<select onchange="plotResults(this.selectedIndex)">'
+      for (i=0;i<results.secondary.length;i++) {
+        txt+='<option value="' + results.secondary[i].label + '_' + results.secondary[i].metric + '" >'+ results.primary.name + ' (' + results.primary.metric + ') to ' + results.secondary[i].name + ' (' + results.secondary[i].metric+')</option>'
+      }
+      txt+=' </select>'
+      document.getElementById('resultsList').innerHTML=txt;
+      plotResults(0);
+    });
+
+    function plotResults(e) {
+      var data = [];
+      for (i=0; i<results.secondary[e].x.length;i++) {
+        
+
+        var trace = {  
+          x: results.secondary[e].x[i],
+          y: results.secondary[e].y[i],
+          type: 'line',
+          name: 'RP= 10^' + Math.log10(results.secondary[e].rp_target[i]) +' years',
+        };
+        data.push(trace)
+        if (i==results.secondary[e].x.length-1) {
+          th_x = {
+                name: 'Risk Threshold - ' + results.secondary[e].name,
+                type: 'line',
+                xref: 'paper',
+                yref: 'y',
+                x: [results.primary.minimum,results.primary.maximum],
+                y: [results.secondary[e].thval,results.secondary[e].thval],
+                
+                line: {
+                  color: 'rgb(255, 0, 0)',
+                  width: 4,
+                  dash:'dot'
+                }
+          };
+          data.push(th_x)
+          th_y = {
+            name: 'Risk Threshold - ' + results.primary.name,
+            type: 'line',
+            xref: 'x',
+            yref: 'paper',
+            y: [0,results.secondary[e].maximum],
+            x: [results.primary.thval,results.primary.thval],
+
+            line: {
+              color: 'rgb(255, 0, 0)',
+              width: 4,
+              dash:'dot'
+            }
+          };
+          data.push(th_y)
+        }
+      }  
+      
+      var layout = {
+          title: 'Multi-Hazard Metric: ' + results.primary.name + ' (' + results.primary.metric + ') to ' + results.secondary[e].name + ' (' + results.secondary[e].metric+')',
+          yaxis: {title: results.secondary[e].name + ' - ' + results.secondary[e].metric + ' [' + results.secondary[e].unit+']'},
+          xaxis: {
+              title: results.primary.name + ' - ' + results.primary.metric + ' [' + results.primary.unit+']',
+              type: 'log',
+              autorange: true
+            }
+          };
+          
+
+          //var data = [trace1];
+
+      Plotly.newPlot('canvas_results', data, layout);
+    }
+
+    function saveResults(e) {
+      ipcRenderer.send('results:save')
+    }
+
+    function addHazard(e) {
+      ipcRenderer.send('hazard:add')
+    }
+
+    function addComponent() {
+      ipcRenderer.send('component:add:open',components)
+    }
+
+    function deleteComponent(e) {
+
+      for (i=0;i<components.features.length;i++) {
+        if (components.features[i].label==e.name) {
+          ci=i;
+        }
+      }
+
+      
+      components.features.splice(ci,1);
+
+      selected_component=0;
+      buildCompList();
+      loadHazard();
+      //blank values
+    }
+
+
+
+
+
+  </script>
+</html>

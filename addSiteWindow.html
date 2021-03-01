@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <link rel="stylesheet" type="text/css" href="assets/css/mainWindow.css">
+  <title>Add New Site</title>
+  <!-- Compiled and minified CSS -->
+  
+</head>
+<body>
+  <div class="row">
+    <form> 
+      <div>
+        <label>Name</label>
+        <input type="text" id="name" autofocus>
+      </div>
+      <div>
+        <label>Country</label>
+        <input type="text" id="country" autofocus>
+      </div>
+      <div>
+        <label>Latitude</label>
+        <input type="text" id="latitude" autofocus>
+      </div>
+      <div>
+        <label>Longitude</label>
+        <input type="text" id="longitude" autofocus>
+      </div>
+      <button type="submit" class="btn waves-effect waves-light">Add Site</button>
+    </form>
+  </div>
+  <script>
+    const electron=require('electron');
+    const {ipcRenderer} = electron;
+
+    const form =document.querySelector('form')
+
+    form.addEventListener('submit', submitForm);
+
+    function submitForm(e) {
+      e.preventDefault();
+      var item={};
+      item.name=document.querySelector('#name').value;
+      item.country=document.querySelector('#country').value;
+      item.latitude=document.querySelector('#latitude').value;
+      item.longitude=document.querySelector('#longitude').value;
+      item.numHazards=0;
+      item.earthquake=false;
+      item.flood=false;
+      item.hazards=[];
+      ipcRenderer.send('sites:add',item)
+    }
+  </script>
+</body>
+</html>

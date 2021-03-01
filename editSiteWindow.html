@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <link rel="stylesheet" type="text/css" href="assets/css/mainWindow.css">
+  <title>Add New Site</title>
+  <!-- Compiled and minified CSS -->
+  
+</head>
+<body>
+  <div class="row">
+    <form> 
+      <div>
+        <label>Name</label>
+        <input type="text" id="name" autofocus>
+      </div>
+      <div>
+        <label>Country</label>
+        <input type="text" id="country" autofocus>
+      </div>
+      <div>
+        <label>Latitude</label>
+        <input type="text" id="latitude" autofocus>
+      </div>
+      <div>
+        <label>Longitude</label>
+        <input type="text" id="longitude" autofocus>
+      </div>
+      <button type="submit" class="btn waves-effect waves-light">Update Site</button>
+    </form>
+  </div>
+  <script>
+    const electron=require('electron');
+    const {ipcRenderer} = electron;
+
+    const form =document.querySelector('form')
+
+    form.addEventListener('submit', submitForm);
+    var site0={}
+    var sIndex;
+    ipcRenderer.on('site:give',function(e,site,siteIndex){
+      console.log(site,siteIndex);
+      site0=site;
+      sIndex=siteIndex;
+      document.getElementById('name').value=site.name;
+      document.getElementById('country').value=site.country;
+      document.getElementById('latitude').value=site.latitude;
+      document.getElementById('longitude').value=site.longitude;
+
+    });
+
+    function submitForm(e) {
+      e.preventDefault();
+
+      site0.name=document.querySelector('#name').value;
+      site0.country=document.querySelector('#country').value;
+      site0.latitude=document.querySelector('#latitude').value;
+      site0.longitude=document.querySelector('#longitude').value;
+
+      ipcRenderer.send('sites:edit:update',site0,sIndex)
+    }
+  </script>
+</body>
+</html>

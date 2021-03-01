@@ -1,0 +1,30 @@
+{
+  "name": "narsis_mhe",
+  "version": "1.0.0",
+  "description": "NARSIS Multi-hazard Explorer",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
+    "package-win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --icon=icon.ico --prune=true --out=release-builds --version-string.CompanyName=KIT --version-string.FileDescription=CE --version-string.ProductName=\"NARSIS_MHE\"",
+    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/icon.png --prune=true --out=release-builds"
+  },
+  "author": "Andreas M. Schaefer",
+  "license": "GNU GPL v3.0",
+  "dependencies": {
+    "bootstrap": "^4.5.3",
+    "csv-parser": "^2.3.2",
+    "electron": "^6.0.0",
+    "everpolate": "0.0.3",
+    "jquery": "3.5.1",
+    "leaflet": "^1.5.1",
+    "leaflet-map": "^0.2.1",
+    "logspace": "^1.0.1",
+    "plotly": "^1.0.6",
+    "plotly.js-dist": "^1.49.1",
+    "popper.js": "^1.16.1"
+  },
+  "devDependencies": {
+    "electron-packager": "^14.2.1"
+  }
+}

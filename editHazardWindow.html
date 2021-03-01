@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <link rel="stylesheet" type="text/css" href="assets/css/mainWindow.css">
+  <link rel="stylesheet" type="text/css" href="src/css/bootstrap.min.css">
+  <title>Edit Hazard</title>
+
+  <script>let $ = require('jquery');</script>
+  <script>require('popper.js');</script>
+  <script>require('bootstrap');</script>
+  <!-- Compiled and minified CSS -->
+  
+</head>
+<body>
+  <section>
+    <div class="row">
+      <div class="col-12">
+      <form> 
+        <table class="table table-sm" id="editList">
+          <tr>
+            <td> <label>Name</label></td>
+            <td> <input type="text" id="name" autofocus></td>
+        </tr>
+        <tr>
+        <td> <label>Label</label></td>
+        <td> <input type="text" id="label" autofocus></td>
+        </tr>
+
+        </table>
+        <button type="submit" class="btn btn-info float-right mr-3">Accept</button>
+      </form>
+    </div>
+    </div>
+  </section>
+  <script>
+    const electron=require('electron');
+    const {ipcRenderer} = electron;
+
+    const form =document.querySelector('form')
+
+    form.addEventListener('submit', submitForm);
+    let hazard
+    let siteIndex
+    let hazardIndex
+
+    ipcRenderer.on('hazard:give',function(e,obj,si,hi){
+      hazard=obj
+      siteIndex=si;
+      hazardIndex=hi;
+
+      console.log('received')
+      
+      txt=''
+      txt+='<tr><td>Metrics:</td><td><td> '
+
+        for (j=0; j<hazard.metrics.length;j++) {
+          txt+='<tr><td><label>Metric-Name:</label></td><td><input type="text" id="metric_' + j+'" value="'+ hazard.metrics[j] + '" autofocus></td></tr>'
+          txt+='<tr><td><label>Unit:</label></td><td><input type="text" id="unit_' + j+'" value="'+ hazard.units[j] + '" autofocus></td></tr>'
+        }
+        txt+='</table>'
+        document.getElementById('editList').innerHTML+=txt;
+        document.getElementById('name').value=hazard.name
+      document.getElementById('label').value=hazard.label
+    });
+    function submitForm(e) {
+
+      e.preventDefault();
+      hazard.name=document.getElementById('name').value
+      hazard.label=document.getElementById('label').value
+
+      for (j=0; j<hazard.metrics.length;j++) {
+        hazard.metrics[j]=document.getElementById('metric_' + j).value
+        hazard.units[j]=document.getElementById('unit_' + j).value
+      }
+
+      ipcRenderer.send('hazard:edit:send',hazard,siteIndex,hazardIndex);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+  <link rel="stylesheet" type="text/css" href="assets/css/mainWindow.css">
+  <title>Add New Component</title>
+  <!-- Compiled and minified CSS -->
+  
+</head>
+<body>
+  <div class="row">
+    <form> 
+      <div>
+        <label>Name</label>
+        <input type="text" id="name" autofocus>
+      </div>
+      <div>
+        <label>Label</label>
+        <input type="text" id="label" autofocus>
+      </div>
+      <button type="submit" class="btn waves-effect waves-light">Update Component</button>
+    </form>
+  </div>
+  <script>
+    const electron=require('electron');
+    const {ipcRenderer} = electron;
+
+    const form =document.querySelector('form')
+
+    form.addEventListener('submit', submitForm);
+
+    var ci;
+    var component0={}
+
+    ipcRenderer.on('component:give',function(e,component,componentIndex){
+
+      site0=component;
+      ci=componentIndex;
+      document.getElementById('name').value=component.name;
+      document.getElementById('label').value=component.label;
+
+    });
+
+    function submitForm(e) {
+      e.preventDefault();
+
+      component0.name=document.querySelector('#name').value;
+      component0.label=document.querySelector('#label').value;
+      ipcRenderer.send('component:edit:send',component0,ci)
+    }
+  </script>
+</body>
+</html>

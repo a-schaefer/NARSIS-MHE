@@ -1,0 +1,71 @@
+{ "type":"FeatureCollection",
+  "features": [ 
+    {
+      "name": "Biblis",
+      "country": "Germany",
+      "latitude": 49.70879,
+      "longitude": 8.41449,
+      "numHazards": 2,
+      "hazards": [
+        {
+          "name": "Earthquake",
+          "label": "EQ",
+          "metrics": ["PGA"],
+          "units": ["g"],
+          "path": "D:/NARSIS/Biblis_EQ.csv"
+        },
+        {
+          "name": "Tornado",
+          "label": "TO",
+          "metrics": ["Windspeed"],
+          "units": ["km/h"],
+          "path": "D:/NARSIS/Biblis_TO.csv"
+        }]
+    },
+    {
+      "name": "Muehlheim Kaerlich",
+      "country": "Germany",
+      "latitude": 50.407990,
+      "longitude": 7.485921,
+      "numHazards": 0,
+      "hazards": []
+    },
+    {
+      "name": "Trino Vercellese",
+      "country": "Italy",
+      "latitude": 45.183135,
+      "longitude": 8.276771,
+      "numHazards": 4,
+      "hazards": [
+        {
+          "name": "Earthquake",
+          "label": "EQ",
+          "metrics": ["PGA"],
+          "units": ["g"],
+          "path": "D:/NARSIS/Trino_EQ.csv"
+        },
+        {
+          "name": "Flood",
+          "label": "FL",
+          "metrics": ["Height", "Flow"],
+          "units": ["m","m^3/s"],
+          "path": "D:/NARSIS/Trino_FL.csv"
+        },
+        {
+          "name": "Tornado",
+          "label": "TO",
+          "metrics": ["Windspeed"],
+          "units": ["km/h"],
+          "path": "D:/NARSIS/Trino_TO.csv"
+        },
+        {
+          "name": "Lightning",
+          "label": "LI",
+          "metrics": ["Electric Current"],
+          "units": ["kA"],
+          "path": "D:/NARSIS/Trino_LI.csv"
+        }
+      ]
+    }
+  ]
+}
