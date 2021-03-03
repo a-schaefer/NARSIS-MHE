@@ -80,7 +80,7 @@
               <!--<button class="button" onclick="">Get Event List</button>-->
               <p>Review the individual hazards for you site. You can add new hazard curves, delete existing ones or proceed to the next step.</p>
               <button class="btn btn-info" onclick="addHazard(this)">Add Hazard</button>
-              <button class="btn btn-info" onclick="openTab(event, 'Logic')">Next Step</button>
+              <button class="btn btn-info" onclick="openTab(event, 'Components')">Next Step</button>
             <div id='hazardList'>
               
             </div>
@@ -111,6 +111,7 @@
           <button class="btn btn-info ml-3 mt-1 mb-1" onclick="addComponent()" style="float: right;">Add</button>
           <button class="btn btn-info ml-3 mt-1 mb-1" onclick="saveComponents()" style="float: right;">Save</button>
           <button class="btn btn-info ml-3 mt-1 mb-1" onclick="loadComponents()" style="float: right;">Load</button>
+          <button class="btn btn-info" onclick="openTab(event, 'Logic')">Next Step</button>
         </div>
         <div class="col-12">
           
@@ -578,8 +579,6 @@
       for (i=0; i<components.features.length;i++) {
         if (components.features[i].label == e.id) {
           document.getElementById("th_header").innerHTML="Risk Thresholds - <b>" + components.features[i].name+"</b>"
-          document.getElementById("comp_delete").name=components.features[i].label
-          document.getElementById("comp_delete").disabled=false
           for (j=0; j<components.features[i].thresholds.length;j++) {
             voc=document.getElementById('th_'+components.features[i].thresholds[j].label+'_' + components.features[i].thresholds[j].metric)
             
