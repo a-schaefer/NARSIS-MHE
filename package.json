@@ -5,9 +5,9 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds",
-    "package-win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --icon=icon.ico --prune=true --out=release-builds --version-string.CompanyName=KIT --version-string.FileDescription=CE --version-string.ProductName=\"NARSIS_MHE\"",
-    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/icon.png --prune=true --out=release-builds"
+    "package-mac": "electron-packager . --overwrite --platform=darwin --arch=x64 --icon=assets/icons/mac/icon.icns --prune=true --out=release-builds --out=release-builds --version-string.CompanyName=KIT --version-string.ProductName=\"NARSIS_MHE\"",
+    "package-win": "electron-packager . --overwrite --platform=win32 --arch=ia32 --icon=assets/img/icon.ico --prune=true --out=release-builds --version-string.CompanyName=KIT --version-string.FileDescription=CE --version-string.ProductName=\"NARSIS_MHE\"",
+    "package-linux": "electron-packager . --overwrite --platform=linux --arch=x64 --icon=assets/icons/png/icon.png --prune=true --out=release-builds --version-string.CompanyName=KIT --version-string.ProductName=\"NARSIS_MHE\""
   },
   "author": "Andreas M. Schaefer",
   "license": "GNU GPL v3.0",

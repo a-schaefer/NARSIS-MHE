@@ -32,6 +32,18 @@
           "label": "TM",
           "unit": "",
           "value": 40
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Load",
+          "unit": "kPa",
+          "value": 70
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Height",
+          "unit": "mm",
+          "value": 6000
         }
       ]
     },
@@ -67,6 +79,18 @@
           "label": "TM",
           "unit": "",
           "value": 40
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Load",
+          "unit": "kPa",
+          "value": 70
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Height",
+          "unit": "mm",
+          "value": 6000
         }
       ]
     },
@@ -102,6 +126,18 @@
           "label": "TM",
           "unit": "",
           "value": 40
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Load",
+          "unit": "kPa",
+          "value": 70
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Height",
+          "unit": "mm",
+          "value": 6000
         }
       ]
     },
@@ -137,6 +173,18 @@
           "label": "TM",
           "unit": "",
           "value": 40
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Load",
+          "unit": "kPa",
+          "value": 70
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Height",
+          "unit": "mm",
+          "value": 6000
         }
       ]
     },
@@ -172,6 +220,18 @@
           "label": "TM",
           "unit": "",
           "value": 40
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Load",
+          "unit": "kPa",
+          "value": 70
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Height",
+          "unit": "mm",
+          "value": 6000
         }
       ]
     },
@@ -207,6 +267,18 @@
           "label": "TM",
           "unit": "",
           "value": 40
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Load",
+          "unit": "kPa",
+          "value": 70
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Height",
+          "unit": "mm",
+          "value": 6000
         }
       ]
     },
@@ -242,6 +314,18 @@
           "label": "TM",
           "unit": "",
           "value": 40
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Load",
+          "unit": "kPa",
+          "value": 70
+        },
+        {
+          "label": "VO",
+          "metric": "Tephra Height",
+          "unit": "mm",
+          "value": 6000
         }
       ]
     }

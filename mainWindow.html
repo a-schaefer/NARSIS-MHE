@@ -556,7 +556,7 @@
           for (j=0; j<components.features[i].thresholds.length;j++) {
             components.features[i].thresholds[j].metric=document.getElementById('thc_metric_' + j).value
             components.features[i].thresholds[j].label=document.getElementById('thc_label_' + j).value
-            components.features[i].thresholds[j].value=document.getElementById('thc_value_' + j).value
+            components.features[i].thresholds[j].value=parseFloat(document.getElementById('thc_value_' + j).value)
             components.features[i].thresholds[j].unit=document.getElementById('thc_unit_' + j).value
             console.log(components.features[i].thresholds[j].value)
           }
@@ -597,6 +597,7 @@
     function updateThreshold() {
       thSetup=[];
       for (i=0; i<hazards.length;i++) {
+        console.log('th_'+hazards[i].label+'_' + hazards[i].metrics)
         for (j=0; j<hazards[i].values.length;j++) {
           thi={}
           thi.value=parseFloat(document.getElementById('th_'+hazards[i].label+'_' + hazards[i].metrics[j]).value)
@@ -609,13 +610,14 @@
             if (components.features[c].label==selected_component) {
               found=false
               for (k=0; k<components.features[c].thresholds.length;k++) {
-                if ((components.features[c].thresholds[k].metric == hazards[i].metrics[j]) & (components.features[c].thresholds[k].label == hazards[i].label[j])) {
+                if ((components.features[c].thresholds[k].metric == hazards[i].metrics[j]) & (components.features[c].thresholds[k].label == hazards[i].label)) {
                   components.features[c].thresholds[k].value=parseFloat(document.getElementById('th_'+hazards[i].label+'_' + hazards[i].metrics[j]).value);
                   found=true;
                 }
               }
               //hazard was not found among thresholds - adding it
               if (found==false) {
+                console.log(selected_component)
                 thc={}
                 thc.label=hazards[i].label
                 thc.metric=hazards[i].metrics[j]
