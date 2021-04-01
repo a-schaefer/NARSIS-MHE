@@ -11,7 +11,7 @@ const {app, BrowserWindow, Menu, ipcMain,dialog} = electron;
 
 var polynomial = require('everpolate').linear
 // SET ENV
-process.env.NODE_ENV='production';
+process.env.NODE_ENV='release';
 
 let mainWindow;
 let addSiteWindow;
@@ -233,7 +233,7 @@ const mainMenuTemplate = [
   }*/
 ];
 
-let sites = JSON.parse(fs.readFileSync("assets/data/sites_v2.json")); 
+let sites = JSON.parse(fs.readFileSync("assets/data/sites.json")); 
 let comp = JSON.parse(fs.readFileSync("assets/data/components.json"));
 let results={};
 let siteIndex=0;
@@ -431,7 +431,7 @@ function interpolate1d(z,x,y) {
 
 
 ipcMain.on('simulate',function(e,setup,item,timeWindow) {
-  
+  //start simulation
   results.primary={};
   
   var hazards=sites.features[(siteIndex)].hazards;
@@ -671,7 +671,7 @@ ipcMain.on('component:add:open',function(e,components){
 
 });
 
-//create new site
+//create new component
 ipcMain.on('component:add',function(e,item){
   for (i=0; i<comp.features[0].thresholds.length;i++) {
     thc={}
