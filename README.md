@@ -8,7 +8,6 @@ The NARSIS-MHE was solely build using the Electron framework and completely base
 ### Release Builds
 From March 1st, 2021
 - Windows
-- Mac
 - Linux
 
 ### Requirements
